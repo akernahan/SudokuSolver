@@ -97,9 +97,17 @@ void add_solution(Queue q, Cell *c) {
 	
 }
 
-int main(void) {
+int main(int argc, char *argv[]) {
+	// add more checks
+	if (argc != 2) {
+		fprintf(stderr, "Usage: <filepath>\n");
+		exit(1);
+	}
+	
+	
 	Queue q = new_queue();
-	Board b = create_board("puzzles/Beginner/0.txt");
+	//Board b = create_board(argv[1]);
+	Board b = create_board("puzzles/Beginner/2.txt");
 	
 	init_queue(q, b);
 	//show_queue(q);
