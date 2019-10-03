@@ -177,6 +177,106 @@ void print_column(Board b, int column) {
 	printf("\n");
 }
 
+// functions for checking solutions are valid (returns True is valid)
+int valid_board(Board b) {
+	for (int i = 0; i < SIZE; i++) {
+		if (!valid_row(b,i) || !valid_column(b,i) || !valid_box(b,i)) {
+			return FALSE;
+		}
+	}
+	return TRUE;
+}
+
+// counts how many times a value is in a row
+// then checks to see if it is 1
+int valid_row(Board b, int row) {
+	int *check_list;
+	check_list = malloc(sizeof(int)*SIZE);
+	assert(check_list != NULL);
+	
+	// initialise check_list elements to 0;
+	int i = 0;
+	for (i = 0; i < SIZE; i++) {
+		check_list[i] = 0;
+	}
+	
+	// count values in row
+	for (i = 0; i < SIZE; i++) {
+		check_list[(b->board[row][i].value - 1)] += 1;
+	}
+	
+	// check counts are 1
+	for (i = 0; i < SIZE; i++) {
+		if (check_list[i] != 1) {
+			return FALSE;
+		}
+	}
+	
+	free(check_list);
+	return TRUE;
+}
+
+// counts how many times a value is in a column
+// then checks to see if it is 1
+int valid_column(Board b, int column) {
+		int *check_list;
+	check_list = malloc(sizeof(int)*SIZE);
+	assert(check_list != NULL);
+	
+	// initialise check_list elements to 0;
+	int i = 0;
+	for (i = 0; i < SIZE; i++) {
+		check_list[i] = 0;
+	}
+	
+	// count values in column
+	for (i = 0; i < SIZE; i++) {
+		check_list[(b->board[i][column].value - 1)] += 1;
+	}
+	
+	// check counts are 1
+	for (i = 0; i < SIZE; i++) {
+		if (check_list[i] != 1) {
+			return FALSE;
+		}
+	}
+	
+	free(check_list);
+	return TRUE;
+}
+
+// counts how many times a value is in a box
+// then checks to see if it is 1
+int valid_box(Board b, int box) {
+		int *check_list;
+	check_list = malloc(sizeof(int)*SIZE);
+	assert(check_list != NULL);
+	
+	// initialise check_list elements to 0;
+	int i = 0;
+	for (i = 0; i < SIZE; i++) {
+		check_list[i] = 0;
+	}
+	
+	// count values in box
+	for (i = 0; i < BOX_SIZE; i++) {
+		for (int j = 0; j < BOX_SIZE; j++) {
+			check_list[(b->board[box_row(i,box)][box_column(j,box)].value - 1)] += 1;
+		}
+	}
+	
+	// check counts are 1
+	for (i = 0; i < SIZE; i++) {
+		if (check_list[i] != 1) {
+			return FALSE;
+		}
+	}
+	
+	free(check_list);
+	return TRUE;
+}
+
+
 
 // Box *create_box(Cell **b, int n) {
 // 	Box *new = malloc(sizeof(struct sudoku_box));

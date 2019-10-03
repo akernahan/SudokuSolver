@@ -58,3 +58,10 @@ void print_row(Board,int);
 void print_column(Board,int);
 void print_box(Board,int);
 
+// functions for checking solutions are valid
+int valid_board(Board);
+int valid_row(Board,int);
+int valid_column(Board,int);
+int valid_box(Board,int);
+
+

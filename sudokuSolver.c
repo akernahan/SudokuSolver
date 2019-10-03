@@ -60,7 +60,7 @@ void remove_possible_box(Board b, Node *n) {
 }
 
 // checks if each cell is solved, finds adds newly solved cells and adds them to the queue
-void check_board(Board b, Queue q) {
+void solve_board(Board b, Queue q) {
 	for (int i = 0; i < SIZE; i++) {
 		for (int j = 0; j < SIZE; j++) {
 			if (b->board[i][j].value == 0) {
@@ -118,7 +118,7 @@ int main(int argc, char *argv[]) {
 		destroy_node(n);
 		
 		if (queue_empty(q)) {
-			check_board(b,q);
+			solve_board(b,q);
 		}
 	}
 	
