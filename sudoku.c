@@ -119,7 +119,13 @@ void destroy_board(Board b) {
 
 // prints out board
 void print_board(Board b) {
-	printf("\033[0;33m"); // makes text yellow
+	
+	// prints green if solved
+	if (valid_board(b)) {
+		printf("\033[0;32m"); // makes text green
+	} else {
+		printf("\033[0;33m"); // makes text yellow
+	}
 	
 	printf(" -----------------------\n");
 	for (int i = 0; i < SIZE; i++) {
