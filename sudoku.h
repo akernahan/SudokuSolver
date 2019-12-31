@@ -63,5 +63,5 @@ int valid_board(Board);
 int valid_row(Board,int);
 int valid_column(Board,int);
 int valid_box(Board,int);
-
+int count_solved(Board);
 

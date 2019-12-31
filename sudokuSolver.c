@@ -60,7 +60,7 @@ void remove_possible_box(Board b, Node *n) {
 }
 
 // checks if each cell is solved, finds adds newly solved cells and adds them to the queue
-void solve_board(Board b, Queue q) {
+void fill_board(Board b, Queue q) {
 	for (int i = 0; i < SIZE; i++) {
 		for (int j = 0; j < SIZE; j++) {
 			if (b->board[i][j].value == 0) {
@@ -97,35 +97,55 @@ void add_solution(Queue q, Cell *c) {
 	
 }
 
-int main(int argc, char *argv[]) {
-	// add more checks
-	if (argc != 2) {
-		fprintf(stderr, "Usage: <filepath>\n");
-		exit(1);
-	}
-	
-	
+void solve_puzzle(Board b) {
 	Queue q = new_queue();
-	//Board b = create_board(argv[1]);
-	Board b = create_board("puzzles/Beginner/2.txt");
-	
-	init_queue(q, b);
-	//show_queue(q);
-	
+	init_queue(q,b);
+
 	while (queue_empty(q)) {
 		Node *n = leave_queue(q);
 		remove_possible(b, n);
 		destroy_node(n);
 		
 		if (queue_empty(q)) {
-			solve_board(b,q);
+			fill_board(b,q);
 		}
 	}
-	
-	printf("----------------\n");
-	print_board(b);
-	
-	destroy_board(b);
+
+	// free memory
 	destroy_queue(q);
-	return 0;
+
+	return;
 }
+
+// int main(int argc, char *argv[]) {
+// 	// add more checks
+// 	if (argc != 2) {
+// 		fprintf(stderr, "Usage: <filepath>\n");
+// 		exit(1);
+// 	}
+	
+	
+// 	Queue q = new_queue();
+// 	//Board b = create_board(argv[1]);
+// 	Board b = create_board("puzzles/Beginner/2.txt");
+	
+// 	init_queue(q, b);
+// 	//show_queue(q);
+	
+// 	while (queue_empty(q)) {
+// 		Node *n = leave_queue(q);
+// 		remove_possible(b, n);
+// 		destroy_node(n);
+		
+// 		if (queue_empty(q)) {
+// 			fill_board(b,q);
+// 		}
+// 	}
+	
+// 	printf("----------------\n");
+// 	print_board(b);
+	
+// 	destroy_board(b);
+// 	destroy_queue(q);
+// 	return 0;
+// }
