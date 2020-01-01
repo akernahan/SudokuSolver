@@ -83,18 +83,27 @@ void test_master() {
 
 }
 
-int main(void) {
-	// Board b = create_board("puzzles/Beginner/0.txt");
-	
-	test_beginner();
-	test_easy();
+void test_one() {
+	Board b = create_board("puzzles/Easy/0.txt");
+	assert(b != NULL);
 
-	//print_box(b, TOP_MIDDLE);
-	// print_box(b, BOTTOM_RIGHT);
-	// printf("\n");
-	//b->board[8][8].value = 3;
-	// print_box(b, BOTTOM_RIGHT);
+	solve_puzzle(b);
+	print_board(b);
+	solve_puzzle(b);
+	print_board(b);
+
+	destroy_board(b);
+}
+
+int main(int argc, char *argv[]) {
 	
-	// destroy_board(b);	
+	if (argc > 1) {
+		test_one();
+	}
+	else {
+		test_beginner();
+		test_easy();
+	}
+	
 	return 0;
 }
