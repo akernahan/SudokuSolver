@@ -97,6 +97,7 @@ void add_solution(Queue q, Cell *c) {
 	
 }
 
+// has a bug
 void solve_puzzle(Board b) {
 	Queue q = new_queue();
 	init_queue(q,b);
