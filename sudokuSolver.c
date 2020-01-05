@@ -112,6 +112,7 @@ void solve_puzzle(Board b) {
 		}
 	}
 
+
 	// free memory
 	destroy_queue(q);
 
