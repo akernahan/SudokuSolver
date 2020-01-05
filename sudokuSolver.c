@@ -78,7 +78,7 @@ void add_solution(Queue q, Cell *c) {
 	}
 	
 	int counter = 0;
-	int v = 0;
+	int v = 0; // possible value
 	for (int i = 0; i < SIZE; i++) {
 		if (c->possible[i]) {
 			counter++;
