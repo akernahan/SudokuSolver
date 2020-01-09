@@ -117,8 +117,11 @@ void solve_puzzle(Board b) {
 
 	return;
 }
+ // TODO
+int backtrack_solve(Board b) {
 
-
+	return 0;
+}
 
 // int main(int argc, char *argv[]) {
 // 	// add more checks

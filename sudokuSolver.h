@@ -13,4 +13,6 @@ void solve_puzzle(Board);
 void fill_board(Board,Queue);
 void add_solution(Queue,Cell*);
 
+int backtrack_solve(Board);
+
 #endif
