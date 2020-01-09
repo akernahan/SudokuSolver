@@ -112,12 +112,13 @@ void solve_puzzle(Board b) {
 		}
 	}
 
-
 	// free memory
 	destroy_queue(q);
 
 	return;
 }
+
+
 
 // int main(int argc, char *argv[]) {
 // 	// add more checks
