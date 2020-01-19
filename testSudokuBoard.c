@@ -84,15 +84,16 @@ void test_master() {
 }
 
 void test_one() {
-	Board b = create_board("puzzles/Easy/0.txt");
+	Board b = create_board("puzzles/Master/0.txt");
 	assert(b != NULL);
+	Coords c = create_coords();
 
-	solve_puzzle(b);
 	print_board(b);
-	solve_puzzle(b);
+	backtrack_solve(b,c);
 	print_board(b);
 
 	destroy_board(b);
+	free(c);
 }
 
 int main(int argc, char *argv[]) {

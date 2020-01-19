@@ -254,7 +254,7 @@ int valid_column(Board b, int column) {
 // counts how many times a value is in a box
 // then checks to see if it is 1
 int valid_box(Board b, int box) {
-		int *check_list;
+	int *check_list;
 	check_list = malloc(sizeof(int)*SIZE);
 	assert(check_list != NULL);
 	

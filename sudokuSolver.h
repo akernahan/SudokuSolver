@@ -13,6 +13,21 @@ void solve_puzzle(Board);
 void fill_board(Board,Queue);
 void add_solution(Queue,Cell*);
 
-int backtrack_solve(Board);
+/* 
+    functions for backtrack method 
+*/
+struct board_pos {
+    int row;
+    int column;
+};
+typedef struct board_pos *Coords;
+
+int backtrack_solve(Board,Coords);
+int find_empty(Board,Coords);
+int is_safe(Board,int,int,int);
+int safe_row(Board,int,int);
+int safe_col(Board,int,int);
+int safe_box(Board,int,int);
+Coords create_coords();
 
 #endif
