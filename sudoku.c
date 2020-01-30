@@ -62,7 +62,7 @@ Board create_board(char *str) {
 	new->board = malloc(sizeof(struct sudoku_cell)*SIZE);
 	assert(new->board != NULL);
 	
-	printf("--- Getting new board ---\n");
+	//printf("--- Getting new board ---\n");
 	
 	for (int i = 0; i < SIZE; i++) {
 		new->board[i] = malloc(sizeof(struct sudoku_cell)*SIZE);
@@ -85,7 +85,7 @@ Board create_board(char *str) {
 // 	}
 	
 	fclose(file);
-	print_board(new);
+	// print_board(new);
 	return new;
 }
 
@@ -254,7 +254,7 @@ int valid_column(Board b, int column) {
 // counts how many times a value is in a box
 // then checks to see if it is 1
 int valid_box(Board b, int box) {
-		int *check_list;
+	int *check_list;
 	check_list = malloc(sizeof(int)*SIZE);
 	assert(check_list != NULL);
 	
@@ -282,7 +282,18 @@ int valid_box(Board b, int box) {
 	return TRUE;
 }
 
-
+// counts how many unsolved cells there are
+int count_solved(Board b) {
+	int count = 0;
+	for (int i = 0; i < SIZE; i++) {
+		for (int j = 0; j < SIZE; j++) {
+			if (b->board[i][j].value) {
+				count++;
+			}
+		}
+	}
+	return count;
+}
 
 // Box *create_box(Cell **b, int n) {
 // 	Box *new = malloc(sizeof(struct sudoku_box));

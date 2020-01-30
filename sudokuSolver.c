@@ -60,7 +60,7 @@ void remove_possible_box(Board b, Node *n) {
 }
 
 // checks if each cell is solved, finds adds newly solved cells and adds them to the queue
-void solve_board(Board b, Queue q) {
+void fill_board(Board b, Queue q) {
 	for (int i = 0; i < SIZE; i++) {
 		for (int j = 0; j < SIZE; j++) {
 			if (b->board[i][j].value == 0) {
@@ -78,7 +78,7 @@ void add_solution(Queue q, Cell *c) {
 	}
 	
 	int counter = 0;
-	int v = 0;
+	int v = 0; // possible value
 	for (int i = 0; i < SIZE; i++) {
 		if (c->possible[i]) {
 			counter++;
@@ -97,35 +97,126 @@ void add_solution(Queue q, Cell *c) {
 	
 }
 
-int main(int argc, char *argv[]) {
-	// add more checks
-	if (argc != 2) {
-		fprintf(stderr, "Usage: <filepath>\n");
-		exit(1);
-	}
-	
-	
+// has a bug, still but okay
+void solve_puzzle(Board b) {
 	Queue q = new_queue();
-	//Board b = create_board(argv[1]);
-	Board b = create_board("puzzles/Beginner/2.txt");
-	
-	init_queue(q, b);
-	//show_queue(q);
-	
+	init_queue(q,b);
+
 	while (queue_empty(q)) {
 		Node *n = leave_queue(q);
 		remove_possible(b, n);
 		destroy_node(n);
 		
 		if (queue_empty(q)) {
-			solve_board(b,q);
+			fill_board(b,q);
+		}
+	}
+
+	// free memory
+	destroy_queue(q);
+
+	return;
+}
+ /*
+	Backtrack Algorithm to solve
+ */
+int backtrack_solve(Board b, Coords c) {
+
+	// stores local row and column co-ordinates
+	int row = -1;
+	int col = -1;
+
+	// finds unsolved place, if no unsolved then puzzle is solved
+	if (!find_empty(b,c)) {
+		return TRUE;
+	}
+	row = c->row;
+	col = c->column;
+
+	// consider digits 1-9
+	for (int n = 1; n < SIZE+1; n++) {
+		
+		// possible correct value
+		if (is_safe(b, row, col, n)) {
+			b->board[row][col].value = n;
+
+			if (backtrack_solve(b,c)) {
+				return TRUE; // puzzles completed
+			}
+
+			// reset value
+			b->board[row][col].value = 0;
+		}
+	}
+
+	return FALSE;
+}
+
+// returns False if there are no values left to find
+int find_empty(Board b, Coords c) {
+	
+	for (int i = 0; i < SIZE; i++) {
+		for (int j = 0; j < SIZE; j++) {
+			if (b->board[i][j].value == 0) {
+				c->row = i;
+				c->column = j;
+				return TRUE;
+			}
 		}
 	}
 	
-	printf("----------------\n");
-	print_board(b);
+	return FALSE;
+}
+
+int is_safe(Board b, int row, int col, int n) {
+	if (!safe_row(b, row, n)) {
+		return FALSE;
+	}
+	if (!safe_col(b, col, n)) {
+		return FALSE;
+	}
+	if (!safe_box(b, get_box(row,col), n)) {
+		return FALSE;
+	}
+	return TRUE;
+}
+
+int safe_row(Board b, int row, int n) {
 	
-	destroy_board(b);
-	destroy_queue(q);
-	return 0;
+	for (int i = 0; i < SIZE; i++) {
+		if (b->board[row][i].value == n) {
+			return FALSE;
+		}
+	}
+	return TRUE;
+}
+
+int safe_col(Board b, int col, int n) {
+	for (int i = 0; i < SIZE; i++) {
+		if (b->board[i][col].value == n) {
+			return FALSE;
+		}
+	}
+	return TRUE;
+}
+
+int safe_box(Board b, int box, int n) {
+	for (int i = 0; i < BOX_SIZE; i++) {
+		for (int j = 0; j < BOX_SIZE; j++) {
+			if (b->board[box_row(i,box)][box_column(j,box)].value == n) {
+				return FALSE;
+			}
+		}
+	}
+	return TRUE;
+}
+
+Coords create_coords() {
+	Coords new = malloc(sizeof(struct board_pos));
+	assert(new != NULL);
+
+	new->row = -1;
+	new->column = -1;
+
+	return new;
 }
