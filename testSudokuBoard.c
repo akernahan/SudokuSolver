@@ -27,7 +27,10 @@ void test_beginner() {
 		Board b = create_board(str);
 		assert(b != NULL);
 
-		solve_puzzle(b);
+		// solve_puzzle(b);
+		Coords c = create_coords();
+		backtrack_solve(b,c);
+		free(c);
 
 		if (valid_board(b)) {
 			printf("\033[0;32m"); // set output colour to green
@@ -53,7 +56,10 @@ void test_easy() {
 		Board b = create_board(str);
 		assert(b != NULL);
 
-		solve_puzzle(b);
+		// solve_puzzle(b);
+		Coords c = create_coords();
+		backtrack_solve(b,c);
+		free(c);
 
 		if (valid_board(b)) {
 			printf("\033[0;32m"); // set output colour to green
