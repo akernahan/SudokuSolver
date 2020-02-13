@@ -23,6 +23,7 @@ class SudokuGUI:
         self.screenSize = self.blockSize*sudokuSize + self.blockMargin*sudokuSize + 2*4
         self.screen = None
         self.solved = False
+        self.tmp = [5,27,49,74,96,118,143,165,187]
 
     # initalises screen
     def initScreen(self):
@@ -34,8 +35,9 @@ class SudokuGUI:
 
 
 if __name__=="__main__":
-    s = SudokuGUI(2)
+    s = SudokuGUI()
     s.initScreen()
+    print(s.screenSize)
 
     clock = pygame.time.Clock()
 
@@ -53,14 +55,8 @@ if __name__=="__main__":
         # add sudoku grid
         for x in range(sudokuSize):
             for y in range(sudokuSize):
-                x_mar = 3
-                y_mar = 3
-                if x == 3 or x == 6:
-                    x_mar += 2
-                if y == 3 or y == 6:
-                    y_mar += 2
-                off_width = (s.blockSize + s.blockMargin)*x + s.blockMargin + x_mar
-                off_height = (s.blockSize + s.blockMargin)*y + s.blockMargin + y_mar
+                off_height = s.tmp[x]
+                off_width = s.tmp[y]
                 loc = [off_width, off_height, s.blockSize, s.blockSize]
                 pygame.draw.rect(s.screen, WHITE, loc)
 
