@@ -122,6 +122,9 @@ void solve_puzzle(Board b) {
  */
 int backtrack_solve(Board b, Coords c) {
 
+	// increment counter
+	c->count++;
+
 	// stores local row and column co-ordinates
 	int row = -1;
 	int col = -1;
@@ -217,6 +220,7 @@ Coords create_coords() {
 
 	new->row = -1;
 	new->column = -1;
+	new->count = 0;
 
 	return new;
 }

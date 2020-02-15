@@ -63,7 +63,7 @@ void test_easy() {
 
 		if (valid_board(b)) {
 			printf("\033[0;32m"); // set output colour to green
-			printf("test %d - passed\n", i);
+			printf("test %d - passed\n");
 		} else {
 			printf("\033[0;31m"); // set output colour to red
 			printf("test %d - failed (%d/%d)\n", i, count_solved(b), SIZE*SIZE);
