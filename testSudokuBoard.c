@@ -30,15 +30,15 @@ void test_beginner() {
 		// solve_puzzle(b);
 		Coords c = create_coords();
 		backtrack_solve(b,c);
-		free(c);
 
 		if (valid_board(b)) {
 			printf("\033[0;32m"); // set output colour to green
-			printf("test %d - passed\n", i);
+			printf("test %d - passed (%d)\n", i, c->count);
 		} else {
 			printf("\033[0;31m"); // set output colour to red
 			printf("test %d - failed (%d/%d)\n", i, count_solved(b), SIZE*SIZE);
 		}
+		free(c);
 		destroy_board(b);
 	}
 	printf("\033[0m"); // resets text colour
