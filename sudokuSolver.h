@@ -19,6 +19,7 @@ void add_solution(Queue,Cell*);
 struct board_pos {
     int row;
     int column;
+    int count;
 };
 typedef struct board_pos *Coords;
 
