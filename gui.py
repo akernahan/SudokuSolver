@@ -3,6 +3,7 @@
 import pygame
 import sys
 import time
+from pygameCell import PygameCell
 
 # Colours
 BLACK = (0,0,0)
@@ -23,6 +24,7 @@ class SudokuGUI:
         self.screenSize = self.blockSize*sudokuSize + self.blockMargin*sudokuSize + 2*4
         self.screen = None
         self.solved = False
+        self.cellList = None
         self.tmp = [5,27,49,74,96,118,143,165,187]
 
     # initalises screen
@@ -30,9 +32,22 @@ class SudokuGUI:
         pygame.init()
         self.screen = pygame.display.set_mode((self.screenSize, self.screenSize))
         pygame.display.set_caption("Sudoku")
+    
+    
+    def initCells(self):
+        # create 9x9 list
+        self.cellList = [[0 for i in range(sudokuSize)] for j in range(sudokuSize)]
         
+        # set offsets
+        offsets = [5,27,49,74,96,118,143,165,187]
+
+        for i in range(sudokuSize):
+            for j in range(sudokuSize):
+                self.cellList[i][j] = PygameCell(self.blockSize, self.blockSize, offsets[j], offsets[i])
 
 
+
+        
 
 if __name__=="__main__":
     s = SudokuGUI()
