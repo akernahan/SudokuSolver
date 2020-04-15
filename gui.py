@@ -25,6 +25,7 @@ class SudokuGUI:
         self.screen = None
         self.solved = False
         self.cellList = None
+        self.mag = size
         self.tmp = [5,27,49,74,96,118,143,165,187]
 
     # initalises screen
@@ -43,14 +44,14 @@ class SudokuGUI:
 
         for i in range(sudokuSize):
             for j in range(sudokuSize):
-                self.cellList[i][j] = PygameCell(self.blockSize, self.blockSize, offsets[j], offsets[i])
+                self.cellList[i][j] = PygameCell(self.blockSize, self.blockSize, offsets[j]*self.mag, offsets[i]*self.mag)
 
 
 
         
 
 if __name__=="__main__":
-    s = SudokuGUI()
+    s = SudokuGUI(1)
     s.initScreen()
     print(s.screenSize)
 
