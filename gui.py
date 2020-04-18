@@ -15,45 +15,87 @@ GREEN = (0,255,0)
 sudokuSize = 9
 
 class SudokuGUI:
-    
-    def __init__(self, size=1):
+
+    def __init__(self, screen=None):
         self.board = [[0 for x in range(9)] for y in range(9)]
-        self.blockSize = 20 * size
-        self.blockMargin = 2 * size
-        self.boxMargin = 5 * size
-        self.screenSize = self.blockSize*sudokuSize + self.blockMargin*sudokuSize + 2*4
-        self.screen = None
-        self.solved = False
-        self.cellList = None
-        self.mag = size
-        self.tmp = [5,27,49,74,96,118,143,165,187]
+        self.screenSize = 450
+        self.screen = screen
+        self.tiles = [[0 for x in range(9)] for y in range(9)]
+
 
     # initalises screen
     def initScreen(self):
         pygame.init()
         self.screen = pygame.display.set_mode((self.screenSize, self.screenSize))
         pygame.display.set_caption("Sudoku")
+        self.initTiles()
     
-    
-    def initCells(self):
-        # create 9x9 list
-        self.cellList = [[0 for i in range(sudokuSize)] for j in range(sudokuSize)]
+    def initTiles(self):
+        gap = self.screenSize / 9
+        for x in range(sudokuSize):
+            for y in range(sudokuSize):
+                self.tiles[x][y] = GuiTile(x,y,gap)
+        self.tiles[4][4].select()
+
+    def draw(self):
+        self.drawLines()
+        for t1 in self.tiles:
+            for t2 in t1:
+                t2.draw(self.screen)
+
+    # draws lines on screen
+    def drawLines(self):
+        gap = self.screenSize / 9
+        for i in range(1,sudokuSize):
+            thick = 2
+            if i % 3 == 0:
+                thick = 4
+            pygame.draw.line(self.screen, BLACK, (0,i*gap), (self.screenSize, i*gap), thick)
+            pygame.draw.line(self.screen, BLACK, (i*gap,0), (i*gap,self.screenSize), thick)
+
+
+
+class GuiTile:
+
+    def __init__(self, row, column, gap):
+        self.row = row
+        self.col = column
+        self.x = gap*row  # x_offset
+        self.y = gap*column  # y_offset
+        self.gap = gap
+        self.val = 0
+        self.fnt = pygame.font.SysFont("trebuchetms", 35)
+        self.highlight = False
+
+    def draw(self, screen):
+        text = self.fnt.render(str(self.val), 1, BLACK)
+        screen.blit(text, (self.x+15,self.y+5))
         
-        # set offsets
-        offsets = [5,27,49,74,96,118,143,165,187]
+        if self.highlight:
+            self.drawHighlights(screen)
 
-        for i in range(sudokuSize):
-            for j in range(sudokuSize):
-                self.cellList[i][j] = PygameCell(self.blockSize, self.blockSize, offsets[j]*self.mag, offsets[i]*self.mag)
+    def drawHighlights(self, screen):
+        thick = 5
+        pygame.draw.line(screen, RED, (self.x, self.y), (self.x+self.gap, self.y), thick)
+        pygame.draw.line(screen, RED, (self.x+self.gap, self.y), (self.x+self.gap, self.y+self.gap), thick)
+        pygame.draw.line(screen, RED, (self.x, self.y), (self.x, self.y+self.gap), thick)
+        pygame.draw.line(screen, RED, (self.x, self.y+self.gap), (self.x+self.gap, self.y+self.gap), thick)
 
+    def select(self):
+        self.highlight = True
 
+    def deselct(self):
+        self.highlight = False    
+
+    def setVal(self, n):
+        self.val = n
+    
 
         
 
 if __name__=="__main__":
     s = SudokuGUI(1)
     s.initScreen()
-    print(s.screenSize)
 
     clock = pygame.time.Clock()
 
@@ -65,18 +107,13 @@ if __name__=="__main__":
                 sys.exit()
                 #done = True
         
-        # makes screen black
-        s.screen.fill(BLACK)
+        # makes screen white
+        s.screen.fill(WHITE)
 
-        # add sudoku grid
-        for x in range(sudokuSize):
-            for y in range(sudokuSize):
-                off_height = s.tmp[x]
-                off_width = s.tmp[y]
-                loc = [off_width, off_height, s.blockSize, s.blockSize]
-                pygame.draw.rect(s.screen, WHITE, loc)
+        # draw 
+        s.draw()
 
-        # update the screen
+        # update the screen (use pygame.display.update(rect_list) for more efficiency)
         pygame.display.flip()
 
         # fps limit

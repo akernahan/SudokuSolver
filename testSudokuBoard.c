@@ -190,7 +190,7 @@ void test_master() {
 }
 
 void test_one() {
-	Board b = create_board("puzzles/Master/2.txt");
+	Board b = create_board("puzzles/Master/0.txt");
 	assert(b != NULL);
 	Coords c = create_coords();
 
