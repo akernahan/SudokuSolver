@@ -8,6 +8,7 @@ from pygameCell import PygameCell
 # Colours
 BLACK = (0,0,0)
 WHITE = (255,255,255)
+GREY = (124,124,124)
 RED = (255,0,0)
 GREEN = (0,255,0)
 
@@ -16,10 +17,11 @@ sudokuSize = 9
 
 class SudokuGUI:
 
-    def __init__(self, screen=None):
-        self.board = [[0 for x in range(9)] for y in range(9)]
+    def __init__(self):
+        # self.board = [[0 for x in range(9)] for y in range(9)]
         self.screenSize = 450
-        self.screen = screen
+        self.screen = None
+        self.clock = pygame.time.Clock()
         self.tiles = [[0 for x in range(9)] for y in range(9)]
 
 
@@ -66,9 +68,14 @@ class GuiTile:
         self.val = 0
         self.fnt = pygame.font.SysFont("trebuchetms", 35)
         self.highlight = False
+        self.og = False
 
     def draw(self, screen):
-        text = self.fnt.render(str(self.val), 1, BLACK)
+        # choose text colour
+        colour = GREY
+        if self.og:
+            colour = BLACK
+        text = self.fnt.render(str(self.val), 1, colour)
         screen.blit(text, (self.x+15,self.y+5))
         
         if self.highlight:
@@ -90,11 +97,15 @@ class GuiTile:
     def setVal(self, n):
         self.val = n
     
+    # set if already given
+    def setOG(self):
+        self.og = True
+    
 
         
 
 if __name__=="__main__":
-    s = SudokuGUI(1)
+    s = SudokuGUI()
     s.initScreen()
 
     clock = pygame.time.Clock()
