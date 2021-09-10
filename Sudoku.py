@@ -1,4 +1,5 @@
 import sys
+import pygame
 from gui import SudokuGUI, GuiTile
 
 class Sudoku:
@@ -26,7 +27,7 @@ class Sudoku:
 
     def createScreen(self):
         self.gui = SudokuGUI()
-        self.gui.initScreen()
+        self.gui.initScreen(self.board)
 
 
     
@@ -96,17 +97,19 @@ class Sudoku:
 
 
 if __name__=="__main__":
-    display = False
+    display = True
     s = Sudoku("puzzles/Beginner/0.txt", display)
+    s.createScreen()
     # s.printBoard()
 
     # loop until user closes gui
-    # done = True
-    # if display:
-    #     done = False
-    # while not done:
-    #     for event in pygame.event.get()
-    #         if (event = pygame.QUIT):
-    #             sys.exit()
+    done = True
+    if display:
+        done = False
+    while not done:
+        for event in pygame.event.get():
+            if (event.type == pygame.QUIT):
+                sys.exit()
+
+        pygame.display.flip()
         
-    #     s.

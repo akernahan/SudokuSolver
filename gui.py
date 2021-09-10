@@ -17,8 +17,11 @@ sudokuSize = 9
 
 class SudokuGUI:
 
-    def __init__(self):
-        # self.board = [[0 for x in range(9)] for y in range(9)]
+    def __init__(self, board=None):
+        if board is None:
+            self.board = [[0 for x in range(9)] for y in range(9)]
+        else:
+            self.board = board
         self.screenSize = 450
         self.screen = None
         self.clock = pygame.time.Clock()
@@ -30,14 +33,15 @@ class SudokuGUI:
         pygame.init()
         self.screen = pygame.display.set_mode((self.screenSize, self.screenSize))
         pygame.display.set_caption("Sudoku")
-        self.initTiles()
+        self.initTiles(self.board)
     
-    def initTiles(self):
+    def initTiles(self, board):
         gap = self.screenSize / 9
         for x in range(sudokuSize):
             for y in range(sudokuSize):
-                self.tiles[x][y] = GuiTile(x,y,gap)
-        self.tiles[4][4].select()
+                self.tiles[x][y] = GuiTile(x, y, gap, board[x][y])
+
+        # self.tiles[4][4].select()
 
     def draw(self):
         self.drawLines()
@@ -54,21 +58,25 @@ class SudokuGUI:
                 thick = 4
             pygame.draw.line(self.screen, BLACK, (0,i*gap), (self.screenSize, i*gap), thick)
             pygame.draw.line(self.screen, BLACK, (i*gap,0), (i*gap,self.screenSize), thick)
+    
 
 
 
 class GuiTile:
 
-    def __init__(self, row, column, gap):
+    def __init__(self, row, column, gap, value):
         self.row = row
         self.col = column
         self.x = gap*row  # x_offset
         self.y = gap*column  # y_offset
         self.gap = gap
-        self.val = 0
+        self.val = value
         self.fnt = pygame.font.SysFont("trebuchetms", 35)
         self.highlight = False
+        
         self.og = False
+        if (value > 0):
+            self.og = True
 
     def draw(self, screen):
         # choose text colour
@@ -108,7 +116,7 @@ if __name__=="__main__":
     s = SudokuGUI()
     s.initScreen()
 
-    clock = pygame.time.Clock()
+    # clock = pygame.time.Clock()
 
     # loop until user exits
     done = False
@@ -128,7 +136,7 @@ if __name__=="__main__":
         pygame.display.flip()
 
         # fps limit
-        clock.tick(30)
+        s.clock.tick(30)
 
 # clase the window and quit
 pygame.quit()
